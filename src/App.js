@@ -30,13 +30,9 @@ class App extends Component {
     }))
   }
 
-  changeShelf = (e, bookObj) => {
-    console.log("e", e);
-    console.log("e.target.value", e.target.value);
-    console.log("e.currentTarget", e.currentTarget);
+  setShelf = (e, bookObj) => {
     BooksAPI.update(bookObj, e.target.value) 
       .then((shelfs) => {
-        console.log('shelfs', shelfs);
         this.setState(() => ({
           shelfs
         }))
@@ -72,23 +68,13 @@ class App extends Component {
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
-          <button onClick={(e) => this.changeShelf(e)}></button>
 
-          <select onChange={(e) => this.changeShelf(e, this.state.books[0])}>
-            <option value="none" disabled>Move to...</option>
-            <option value="currentlyReading">Currently Reading</option>
-            <option value="wantToRead">Want to Read</option>
-            <option value="read">Read</option>
-            <option value="none">None</option>
-          </select>
-
-          <button onClick={() => this.changeShelf(this.state.books[0], "wantToRead")}></button>
           <div className="list-books-content">
-            <Bookshelf books={this.state.books}/>
+            <Bookshelf books={this.state.books} shelfs={this.state.shelfs} changeShelf={this.setShelf}/>
           </div>
           <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
+          </div>
         </div>
        )}
       </div>
