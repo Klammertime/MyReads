@@ -4,14 +4,6 @@ import Book from './SingleBook';
 
 function Bookshelf (props){
 
-// removeFromShelf = (book) => {
-//   this.setState((prevState, props) => ({
-//     books: prevState.books.filter((b) => {
-//       return b.title !== book.title;
-//     })
-//   }))
-// }
-
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{props.categoryTitle}</h2>
