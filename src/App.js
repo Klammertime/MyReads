@@ -2,42 +2,55 @@ import React, { Component } from 'react';
 import './App.css';
 import * as BooksAPI from './BooksAPI'
 import Bookshelf from './Bookshelf';
-import ShelfChangerBtn from './ShelfChangerBtn';
 
 class App extends Component {
   state = {
     books: [],
     showSearchPage: false,
-    read: [],
-    wantToRead: [],
-    currentlyReading: []
+    shelfs: []
   }
 
   componentDidMount(){
     BooksAPI.getAll()
       .then((books) => {
         this.setState(() => ({
-          books
+          books: books
         }))
       })
   }
 
-  removeFromShelf = (book) => {
-    this.setState((prevState, props) => ({
-      books: prevState.books.filter((b) => {
-        return b.title !== book.title;
-      })
-    }))
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate ran');
   }
 
+  // setting a setState callback works 
+    // setState(
+  //   { name: "Michael" },
+  //   () => console.log(this.state)
+  // );
+  // => { name: "Michael" }
+
+
+  // this works but select button not updating with correct selection
   setShelf = (e, bookObj) => {
-    BooksAPI.update(bookObj, e.target.value) 
-      .then((shelfs) => {
-        this.setState(() => ({
-          shelfs
-        }))
-      })
+    BooksAPI.update({id: bookObj}, e.target.value) 
+      .then(shelfs => {
+        this.setState(
+          { shelfs }, 
+          () => {
+            BooksAPI.getAll()
+            .then((books) => {
+              this.setState(() => ({
+                books: books
+              }))
+            })
+          }
+        );
+      });
   }
+
+  // input needs to call this:
+  //search(query)
 
   render() {
     return (
@@ -56,11 +69,10 @@ class App extends Component {
                 you don't find a specific author or title. Every search is limited by search terms.
               */}
               <input type="text" placeholder="Search by title or author"/>
-
             </div>
           </div>
           <div className="search-books-results">
-            <ol className="books-grid"></ol>
+            <Bookshelf books={this.state.books} changeShelf={this.setShelf} category="search" categoryTitle="Search Results"/>
           </div>
         </div>
        ) : (       
@@ -70,7 +82,9 @@ class App extends Component {
           </div>
 
           <div className="list-books-content">
-            <Bookshelf books={this.state.books} shelfs={this.state.shelfs} changeShelf={this.setShelf}/>
+            <Bookshelf books={this.state.books} changeShelf={this.setShelf} category="read" categoryTitle="Read"/>
+            <Bookshelf books={this.state.books} changeShelf={this.setShelf} category="currentlyReading" categoryTitle="Currently Reading"/>
+            <Bookshelf books={this.state.books} changeShelf={this.setShelf} category="wantToRead" categoryTitle="Want To Read"/>
           </div>
           <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
