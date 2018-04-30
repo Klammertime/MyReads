@@ -23,6 +23,7 @@ class App extends Component {
           })
       }
     );
+    console.log("this.state.searchResults", this.state.searchResults);
   }
 
   componentDidMount(){
