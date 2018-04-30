@@ -21,8 +21,8 @@ class Book extends Component {
             style={divStyle}>
           </div>
           <div className="book-shelf-changer">
-            <select bookid={this.props.book.id} onChange={this.changeShelf}>
-              <option value="none">Move to...</option>
+            <select value={this.props.book.shelf} bookid={this.props.book.id} onChange={this.changeShelf}>
+              <option value="moveTo">Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
@@ -31,8 +31,15 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{this.props.book.title}</div>
-        <div className="book-authors">{this.props.book.authors}</div>
-      </div>
+        <div className="book-authors">
+        {this.props.book.authors && 
+        this.props.book.authors.map((author) => (
+          <div>
+           {author}
+          </div>
+        ))}
+        </div>      
+        </div>
     )
   }
 }

@@ -5,12 +5,17 @@ import Bookshelf from './Bookshelf';
 import Searchresults from './Searchresults';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     books: [],
     showSearchPage: false,
     shelfs: [],
     searchResults: null,
-    emptyResult: true
+    emptyResult: true,
+    selectValue: {value: 'moveTo'}
   }
 
   handleChange(e) {
@@ -18,6 +23,7 @@ class App extends Component {
       () => {
         BooksAPI.search(this.state.value)
           .then((results) => {
+            console.log('search results', results);
             if(Array.isArray(results)){
               this.setState(() => ({
                 searchResults: results,
@@ -43,11 +49,9 @@ class App extends Component {
       })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate ran');
-  }
-
   setShelf = (e, bookObj) => {
+    this.setState({selectValue: e.target.value});
+
     BooksAPI.update({id: bookObj}, e.target.value) 
       .then(shelfs => {
         this.setState(
@@ -55,6 +59,7 @@ class App extends Component {
           () => {
             BooksAPI.getAll()
             .then((books) => {
+              console.log('books', books);
               this.setState(() => ({
                 books: books
               }))
@@ -65,6 +70,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("this.state.books", this.state.books);
     return (
       <div className="app">
         {this.state.showSearchPage ? (
