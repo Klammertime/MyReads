@@ -9,7 +9,8 @@ class App extends Component {
     books: [],
     showSearchPage: false,
     shelfs: [],
-    searchResults: null
+    searchResults: null,
+    emptyResult: true
   }
 
   handleChange(e) {
@@ -17,13 +18,20 @@ class App extends Component {
       () => {
         BooksAPI.search(this.state.value)
           .then((results) => {
-            this.setState(() => ({
-              searchResults: results
-            }))
+            if(Array.isArray(results)){
+              this.setState(() => ({
+                searchResults: results,
+                emptyResult: false
+              }))
+            } else {
+              this.setState(() => ({
+                searchResults: [],
+                emptyResult: true
+              }))
+            }
           })
       }
     );
-    console.log("this.state.searchResults", this.state.searchResults);
   }
 
   componentDidMount(){
@@ -69,7 +77,7 @@ class App extends Component {
           </div>
           <div className="search-books-results">
           {this.state.searchResults && 
-            <Searchresults books={this.state.searchResults} changeShelf={this.setShelf} />
+            <Searchresults books={this.state.searchResults} changeShelf={this.setShelf} empty={this.state.emptyResult} />
           }
           </div>
         </div>
