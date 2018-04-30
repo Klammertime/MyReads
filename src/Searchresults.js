@@ -14,7 +14,7 @@ class Searchresults extends Component {
           <ol className="books-grid">
             {this.props.books.map((book) => (
               <li key={book.id}>
-                <Book book={book} changeShelf={this.props.changeShelf} bookID={book.id} />
+                <Book book={book} changeShelf={this.props.changeShelf} bookID={book.id}/>
               </li>
             ))}
           </ol>
