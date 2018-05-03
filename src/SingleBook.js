@@ -8,9 +8,9 @@ class Book extends Component {
   }
 
   render() {
-    const imgUrl = this.props.book.imageLinks.thumbnail;
+    const imgUrl = this.props.book.imageLinks.thumbnail || `./icons/notebook.svg`;
     const divStyle = {
-      backgroundImage: 'url(' + imgUrl + ')'
+      backgroundImage: `url(${imgUrl})`
     };
 
     return (

@@ -9,7 +9,10 @@ function Bookshelf (props){
           <ol className="books-grid">
           {props.books.filter(book => book.shelf === props.category).map((book) => (
             <li key={book.id}>
-              <Book book={book} changeShelf={props.changeShelf} bookID={book.id} shelf={book.shelf}/>
+              <Book book={book} 
+                    changeShelf={props.changeShelf} 
+                    bookID={book.id} 
+                    shelf={book.shelf}/>
             </li>
           ))}
           </ol>

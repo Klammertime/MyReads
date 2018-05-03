@@ -15,18 +15,23 @@ class App extends Component {
     shelfs: [],
     searchResults: null,
     emptyResult: true,
-    selectValue: {value: 'moveTo'}
+    selectValue: {value: 'moveTo'},
+    query: ''
   }
 
   handleChange(e) {
-    this.setState({value: e.target.value},
+    this.setState({query: e.target.value},
       () => {
-        BooksAPI.search(this.state.value)
+        BooksAPI.search(this.state.query)
           .then((results) => {
-            console.log('search results', results);
             if(Array.isArray(results)){
+              const existingBooks = this.state.books;
+              const newResults = results.map(function(val){
+                let res = existingBooks.find(el => (el.id === val.id));
+                return res ? res : val;
+              });
               this.setState(() => ({
-                searchResults: results,
+                searchResults: newResults,
                 emptyResult: false
               }))
             } else {
@@ -59,7 +64,6 @@ class App extends Component {
           () => {
             BooksAPI.getAll()
             .then((books) => {
-              console.log('books', books);
               this.setState(() => ({
                 books: books
               }))
@@ -70,7 +74,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("this.state.books", this.state.books);
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -78,7 +81,7 @@ class App extends Component {
           <div className="search-books-bar">
             <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
             <div className="search-books-input-wrapper">
-              <input value={this.state.value} type="text" onChange={(e) => this.handleChange(e)} placeholder="Search by title or author"/>
+              <input value={this.state.query} type="text" onChange={(e) => this.handleChange(e)} placeholder="Search by title or author"/>
             </div>
           </div>
           <div className="search-books-results">
