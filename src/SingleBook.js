@@ -39,9 +39,12 @@ class Book extends Component {
           </div>
         ))}
         </div>      
-        </div>
+      </div>
     )
   }
 }
 
+Book.defaultProps = {
+  shelf: `none`
+}
 export default Book; 

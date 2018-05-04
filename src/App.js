@@ -81,12 +81,17 @@ class App extends Component {
           <div className="search-books-bar">
             <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
             <div className="search-books-input-wrapper">
-              <input value={this.state.query} type="text" onChange={(e) => this.handleChange(e)} placeholder="Search by title or author"/>
+              <input value={this.state.query} 
+                    type="text" 
+                    onChange={(e) => this.handleChange(e)} 
+                    placeholder="Search by title or author"/>
             </div>
           </div>
           <div className="search-books-results">
           {this.state.searchResults && 
-            <Searchresults books={this.state.searchResults} changeShelf={this.setShelf} empty={this.state.emptyResult} />
+            <Searchresults books={this.state.searchResults} 
+                            changeShelf={this.setShelf} 
+                            empty={this.state.emptyResult} />
           }
           </div>
         </div>
