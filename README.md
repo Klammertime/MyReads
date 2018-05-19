@@ -1,6 +1,7 @@
 # My Reads
 
 https://klammertime.github.io/MyReads/
+
 [TRY MY READS HERE](https://klammertime.github.io/MyReads/)
 
 ## Launching Project
@@ -26,4 +27,4 @@ This project was bootstrapped with Create React App.
 
 This project was created for the Udacity React certificate program.
 
-![Requirements](/images/projectRequirements.png)
+![Requirements](/src/images/projectRequirements.png)
